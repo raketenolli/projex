@@ -5,12 +5,15 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
 import javax.swing.UIManager;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 public class WindowWithButtons {
 	
@@ -24,7 +27,36 @@ public class WindowWithButtons {
 		JFrame frame;
 		frame = new JFrame("Projex");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 
+		JTree projectTree;
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
+		projectTree = new JTree(root);
+		
+		DefaultMutableTreeNode projects = new DefaultMutableTreeNode("Projects");
+		root.add(projects);
+		
+		DefaultMutableTreeNode rocket = new DefaultMutableTreeNode("Build a rocket");
+		DefaultMutableTreeNode cncMill = new DefaultMutableTreeNode("Fix CNC mill");
+		DefaultMutableTreeNode printer3d = new DefaultMutableTreeNode("Fix 3D Printer");
+		projects.add(rocket);
+		projects.add(cncMill);
+		projects.add(printer3d);
+		
+		DefaultMutableTreeNode someday = new DefaultMutableTreeNode("Someday maybe");
+		root.add(someday);
+		
+		DefaultMutableTreeNode airplane = new DefaultMutableTreeNode("Build airplane");
+		someday.add(airplane);
+		
+		for (int i = 0; i < projectTree.getRowCount(); i++) {
+			projectTree.expandRow(i);
+		}		
+		projectTree.setRootVisible(false);
+
+		JScrollPane projectTreeView = new JScrollPane(projectTree);
+		projectTreeView.setPreferredSize(new Dimension(200, 400));
+				
 		JPanel matrixPanel = new JPanel() {
 			@Override
 			protected void paintComponent(Graphics g) {
@@ -79,6 +111,7 @@ public class WindowWithButtons {
 		matrixPanel.add(buttonB);
 		matrixPanel.add(buttonC);
 		
+		frame.add(projectTreeView);
 		frame.add(matrixPanel);
 		
 		frame.pack();
