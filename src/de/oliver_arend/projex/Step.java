@@ -1,23 +1,33 @@
 package de.oliver_arend.projex;
 
+import java.util.UUID;
+
 public class Step {
 
+    /**
+     * Step class
+     *
+     * @param description A text describing what should happen in this step
+     * @param parent A UUID that identifies the parent of the newly created step
+     * @param predecessor A UUID that identifies the predecessor of the newly created step
+     */
+	
+	private UUID id;
 	private String description;
-	private int level;
-	private Step parent;
-	private Step child;
-	private Step predecessor;
-	private Step successor;
+	private UUID parent;
+	private UUID predecessor;
 	private StepState state;
 	
-	public Step(String description, int level, Step parent, Step child, Step predecessor, Step successor) {
+	public Step(String description, UUID parent, UUID predecessor) {
+		this.id = UUID.randomUUID();
 		this.description = description;
-		this.level = level;
 		this.parent = parent;
-		this.child = child;
 		this.predecessor = predecessor;
-		this.successor = successor;
 		this.state = StepState.NEW;
+	}
+	
+	public UUID getId() {
+		return this.id;
 	}
 
 	public String getDescription() {
@@ -28,19 +38,11 @@ public class Step {
 		this.description = description;
 	}
 
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
-	public Step getParent() {
+	public UUID getParent() {
 		return parent;
 	}
 
-	public void setParent(Step parent) {
+	public void setParent(UUID parent) {
 		this.parent = parent;
 	}
 	
@@ -48,40 +50,16 @@ public class Step {
 		return this.parent != null;
 	}
 
-	public Step getChild() {
-		return child;
-	}
-
-	public void setChild(Step child) {
-		this.child = child;
-	}
-	
-	public boolean hasChild() {
-		return this.child != null;
-	}
-
-	public Step getPredecessor() {
+	public UUID getPredecessor() {
 		return predecessor;
 	}
 
-	public void setPredecessor(Step predecessor) {
+	public void setPredecessor(UUID predecessor) {
 		this.predecessor = predecessor;
 	}
 	
 	public boolean hasPredecessor() {
 		return this.predecessor != null;
-	}
-
-	public Step getSuccessor() {
-		return successor;
-	}
-
-	public void setSuccessor(Step successor) {
-		this.successor = successor;
-	}
-	
-	public boolean hasSuccessor() {
-		return this.successor != null;
 	}
 
 	public StepState getState() {

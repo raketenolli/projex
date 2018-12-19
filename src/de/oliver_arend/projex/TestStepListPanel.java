@@ -23,33 +23,35 @@ public class TestStepListPanel {
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 
 		List<Step> stepList = new ArrayList<Step>();
-		Step information = new Step("Information phase", 0, null, null, null, null);
-		Step scaleDrawings = new Step("Scale drawings", 1, information, null, null, null);
-		information.setChild(scaleDrawings);
-		Step getPhotos = new Step("Get photos", 2, scaleDrawings, null, null, null);
-		scaleDrawings.setChild(getPhotos);
-		Step convertToDrawings = new Step("Convert photos to drawings", 2, scaleDrawings, null, getPhotos, null);
-		getPhotos.setSuccessor(convertToDrawings);
-		Step cadDrawings = new Step("CAD drawings", 1, information, null, scaleDrawings, null);
-		scaleDrawings.setSuccessor(cadDrawings);
-		Step material = new Step("Material phase", 0, null, null, information, null);
-		information.setSuccessor(material);
+		Step information = new Step("Information phase", null, null);
+		Step scaleDrawings = new Step("Scale drawings", information.getId(), null);
+		Step getPhotos = new Step("Get photos", scaleDrawings.getId(), null);
+		Step convertToDrawings = new Step("Convert photos to drawings", scaleDrawings.getId(), getPhotos.getId());
+		Step cadDrawings = new Step("CAD drawings", information.getId(), scaleDrawings.getId());
+		Step paintScheme = new Step("Create paint scheme", information.getId(), scaleDrawings.getId());
+		Step material = new Step("Material phase", null, information.getId());
+		Step cncMill = new Step("Fix CNC mill", null, null);
+		
 		information.setState(StepState.STARTED);
 		scaleDrawings.setState(StepState.STARTED);
 		getPhotos.setState(StepState.COMPLETED);
 		stepList.add(information);
-		stepList.add(scaleDrawings);
-		stepList.add(getPhotos);
-		stepList.add(convertToDrawings);
-		stepList.add(cadDrawings);
 		stepList.add(material);
+		stepList.add(cncMill);
+		stepList.add(scaleDrawings);
+		stepList.add(convertToDrawings);
+		stepList.add(getPhotos);
+		stepList.add(cadDrawings);
+		stepList.add(paintScheme);
+		
+		ParsedStepList parsedStepList = new ParsedStepList(stepList);
 
-		stepListPanel = new StepListPanel(stepList);
-		stepListPanel.setPreferredSize(new Dimension(300, 160));
+		stepListPanel = new StepListPanel(parsedStepList);
+		stepListPanel.setPreferredSize(new Dimension(320, 240));
 		
 		frame.add(stepListPanel);
 		frame.pack();
-		frame.setLocation(800, 450);
+		frame.setLocation(800, 430);
 		frame.setVisible(true);
 	}
 	

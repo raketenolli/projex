@@ -26,23 +26,23 @@ public class StepListIconImage {
 
 	public StepListIconImage(
 			int level, 
-			StepState state,
-			boolean hasParent, 
-			StepState parentState,
-			boolean hasChild,
-			StepState childState,
-			boolean hasPredecessor, 
-			StepState predecessorState, 
-			boolean hasSuccessor, 
-			StepState successorState) {
+			StepState state) {
+//			boolean hasParent, 
+//			StepState parentState,
+//			boolean hasChild,
+//			StepState childState,
+//			boolean hasPredecessor, 
+//			StepState predecessorState, 
+//			boolean hasSuccessor, 
+//			StepState successorState) {
 		image = new BufferedImage(this.iconHeight * (level + 1) + 2, this.iconHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
         setRenderingHints(g2d);
-        g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        drawParent(g2d, level, hasParent, parentState, hasPredecessor);
-        drawChild(g2d, level, hasChild, childState);
-        drawPredecessor(g2d, level, state, hasPredecessor, predecessorState);
-        drawSuccessor(g2d, level, hasSuccessor, successorState);
+//        g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+//        drawParent(g2d, level, hasParent, parentState, hasPredecessor);
+//        drawChild(g2d, level, hasChild, childState);
+//        drawPredecessor(g2d, level, state, hasPredecessor, predecessorState);
+//        drawSuccessor(g2d, level, hasSuccessor, successorState);
         g2d.setStroke(new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         drawStep(g2d, level, state);
 	}
