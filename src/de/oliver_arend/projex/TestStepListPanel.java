@@ -17,26 +17,26 @@ public class TestStepListPanel {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch(Exception e) {}
 
-		DragListener drag = new DragListener();
-		
 		JFrame frame;
 		frame = new JFrame("Projex");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 
 		List<Step> stepList = new ArrayList<Step>();
-		Step information = new Step("Information phase", 0, null, null, null);
-		Step scaleDrawings = new Step("Scale drawings", 1, information, null, null);
-		Step getPhotos = new Step("Get photos", 2, scaleDrawings, null, null);
-		Step convertToDrawings = new Step("Convert photos to drawings", 2, scaleDrawings, getPhotos, null);
+		Step information = new Step("Information phase", 0, null, null, null, null);
+		Step scaleDrawings = new Step("Scale drawings", 1, information, null, null, null);
+		information.setChild(scaleDrawings);
+		Step getPhotos = new Step("Get photos", 2, scaleDrawings, null, null, null);
+		scaleDrawings.setChild(getPhotos);
+		Step convertToDrawings = new Step("Convert photos to drawings", 2, scaleDrawings, null, getPhotos, null);
 		getPhotos.setSuccessor(convertToDrawings);
-		Step cadDrawings = new Step("CAD drawings", 1, information, scaleDrawings, null);
+		Step cadDrawings = new Step("CAD drawings", 1, information, null, scaleDrawings, null);
 		scaleDrawings.setSuccessor(cadDrawings);
-		Step material = new Step("Material phase", 0, null, information, null);
+		Step material = new Step("Material phase", 0, null, null, information, null);
 		information.setSuccessor(material);
-		information.setCompleted(true);
-		scaleDrawings.setCompleted(true);
-		getPhotos.setCompleted(true);
+		information.setState(StepState.STARTED);
+		scaleDrawings.setState(StepState.STARTED);
+		getPhotos.setState(StepState.COMPLETED);
 		stepList.add(information);
 		stepList.add(scaleDrawings);
 		stepList.add(getPhotos);

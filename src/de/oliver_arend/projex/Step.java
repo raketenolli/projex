@@ -5,17 +5,19 @@ public class Step {
 	private String description;
 	private int level;
 	private Step parent;
+	private Step child;
 	private Step predecessor;
 	private Step successor;
-	private boolean isCompleted;
+	private StepState state;
 	
-	public Step(String description, int level, Step parent, Step predecessor, Step successor) {
+	public Step(String description, int level, Step parent, Step child, Step predecessor, Step successor) {
 		this.description = description;
 		this.level = level;
 		this.parent = parent;
+		this.child = child;
 		this.predecessor = predecessor;
 		this.successor = successor;
-		this.isCompleted = false;
+		this.state = StepState.NEW;
 	}
 
 	public String getDescription() {
@@ -46,6 +48,18 @@ public class Step {
 		return this.parent != null;
 	}
 
+	public Step getChild() {
+		return child;
+	}
+
+	public void setChild(Step child) {
+		this.child = child;
+	}
+	
+	public boolean hasChild() {
+		return this.child != null;
+	}
+
 	public Step getPredecessor() {
 		return predecessor;
 	}
@@ -70,12 +84,12 @@ public class Step {
 		return this.successor != null;
 	}
 
-	public boolean isCompleted() {
-		return isCompleted;
+	public StepState getState() {
+		return state;
 	}
 
-	public void setCompleted(boolean isCompleted) {
-		this.isCompleted = isCompleted;
+	public void setState(StepState state) {
+		this.state = state;
 	}
 	
 }

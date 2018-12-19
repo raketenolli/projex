@@ -26,52 +26,69 @@ public class StepListIconImage {
 
 	public StepListIconImage(
 			int level, 
-			boolean isCompleted,
+			StepState state,
 			boolean hasParent, 
-			boolean isParentCompleted, 
+			StepState parentState,
+			boolean hasChild,
+			StepState childState,
 			boolean hasPredecessor, 
-			boolean isPredecessorCompleted, 
+			StepState predecessorState, 
 			boolean hasSuccessor, 
-			boolean isSuccessorCompleted) {
-		image = new BufferedImage(this.iconHeight * (level + 1), this.iconHeight, BufferedImage.TYPE_INT_ARGB);
+			StepState successorState) {
+		image = new BufferedImage(this.iconHeight * (level + 1) + 2, this.iconHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
         setRenderingHints(g2d);
         g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        drawParent(g2d, level, hasParent, isParentCompleted, hasPredecessor);
-        drawPredecessor(g2d, level, hasPredecessor, isCompleted);
-        drawSuccessor(g2d, level, hasSuccessor, isSuccessorCompleted);
+        drawParent(g2d, level, hasParent, parentState, hasPredecessor);
+        drawChild(g2d, level, hasChild, childState);
+        drawPredecessor(g2d, level, state, hasPredecessor, predecessorState);
+        drawSuccessor(g2d, level, hasSuccessor, successorState);
         g2d.setStroke(new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        drawStep(g2d, level, isCompleted);
+        drawStep(g2d, level, state);
 	}
 	
-	private void drawParent(Graphics2D g2d, int level, boolean hasParent, boolean isParentCompleted, boolean hasPredecessor) {
+	private void drawParent(Graphics2D g2d, int level, boolean hasParent, StepState parentState, boolean hasPredecessor) {
 		if(hasParent && !hasPredecessor) {
-			g2d.setColor(drawColor(isParentCompleted));
+			g2d.setColor(drawColor(parentState));
 			g2d.drawLine(this.iconHeight*level, 0, this.iconHeight*level+this.iconHeight/2, this.iconHeight/2);
 		}
 	}
 	
-	private void drawPredecessor(Graphics2D g2d, int level, boolean hasPredecessor, boolean isCompleted) {
+	private void drawChild(Graphics2D g2d, int level, boolean hasChild, StepState childState) {
+		if(hasChild) {
+			g2d.setColor(drawColor(childState));
+			g2d.drawLine(this.iconHeight*level+this.iconHeight/2, this.iconHeight/2, this.iconHeight*(level+1), this.iconHeight);
+		}
+	}
+	
+	private void drawPredecessor(Graphics2D g2d, int level, StepState state, boolean hasPredecessor, StepState predecessorState) {
 		if(hasPredecessor) {
-			g2d.setColor(drawColor(isCompleted));
+			g2d.setColor(drawColor(StepState.atLeastOneNew(state, predecessorState)));
 			g2d.drawLine(this.iconHeight*level+this.iconHeight/2, 0, this.iconHeight*level+this.iconHeight/2, this.iconHeight/2);
 		}
 	}
 	
-	private void drawSuccessor(Graphics2D g2d, int level, boolean hasSuccessor, boolean isSuccessorCompleted) {
+	private void drawSuccessor(Graphics2D g2d, int level, boolean hasSuccessor, StepState successorState) {
 		if(hasSuccessor) {
-			g2d.setColor(drawColor(isSuccessorCompleted));
+			g2d.setColor(drawColor(successorState));
 			g2d.drawLine(this.iconHeight*level+this.iconHeight/2, this.iconHeight/2, this.iconHeight*level+this.iconHeight/2, this.iconHeight);
 		}
 	}
 	
-	private void drawStep(Graphics2D g2d, int level, boolean isCompleted) {
-		g2d.setColor(drawColor(isCompleted));
-		g2d.fillOval(this.iconHeight*level+this.iconHeight/4, this.iconHeight/4, this.iconHeight/2, this.iconHeight/2);
+	private void drawStep(Graphics2D g2d, int level, StepState state) {
+		if(state == StepState.NEW || state == StepState.COMPLETED) {
+			g2d.setColor(drawColor(state));
+			g2d.fillOval(this.iconHeight*level+this.iconHeight/4, this.iconHeight/4, this.iconHeight/2, this.iconHeight/2);
+		} else {
+			g2d.setColor(incompleteColor);
+			g2d.fillOval(this.iconHeight*level+this.iconHeight/4, this.iconHeight/4, this.iconHeight/2, this.iconHeight/2);
+			g2d.setColor(completeColor);
+			g2d.drawOval(this.iconHeight*level+this.iconHeight/4, this.iconHeight/4, this.iconHeight/2, this.iconHeight/2);
+		}
 	}
 	
-	private Color drawColor(boolean complete) {
-		if(complete) { return completeColor; }
+	private Color drawColor(StepState state) {
+		if(state != StepState.NEW) { return completeColor; }
 		else { return incompleteColor; }
 	}
 	

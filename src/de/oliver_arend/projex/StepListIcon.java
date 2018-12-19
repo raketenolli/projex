@@ -8,18 +8,21 @@ public class StepListIcon extends ImageIcon {
 		super();
 		
 		int level = step.getLevel();
-		boolean isCompleted = step.isCompleted();
+		StepState state = step.getState();
 		boolean hasParent = step.hasParent();
-		boolean isParentCompleted = false;
-		if(hasParent) { isParentCompleted = step.getParent().isCompleted(); }
+		StepState parentState = StepState.NEW;
+		if(hasParent) { parentState = step.getParent().getState(); }
+		boolean hasChild = step.hasChild();
+		StepState childState = StepState.NEW;
+		if(hasChild) { childState = step.getChild().getState(); }
 		boolean hasPredecessor = step.hasPredecessor();
-		boolean isPredecessorCompleted = false;
-		if(hasPredecessor) { isPredecessorCompleted = step.getPredecessor().isCompleted(); }
+		StepState predecessorState = StepState.NEW;
+		if(hasPredecessor) { predecessorState = step.getPredecessor().getState(); }
 		boolean hasSuccessor = step.hasSuccessor();
-		boolean isSuccessorCompleted = false;
-		if(hasSuccessor) { isSuccessorCompleted = step.getSuccessor().isCompleted(); }
+		StepState successorState = StepState.NEW;
+		if(hasSuccessor) { successorState = step.getSuccessor().getState(); }
 		
-		this.setImage(new StepListIconImage(level, isCompleted, hasParent, isParentCompleted, hasPredecessor, isPredecessorCompleted, hasSuccessor, isSuccessorCompleted).getImage());
+		this.setImage(new StepListIconImage(level, state, hasParent, parentState, hasChild, childState, hasPredecessor, predecessorState, hasSuccessor, successorState).getImage());
 	}
 
 }
