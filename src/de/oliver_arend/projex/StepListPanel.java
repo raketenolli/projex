@@ -9,10 +9,13 @@ public class StepListPanel extends JPanel {
 		super();
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.setBorder(null);
+		this.setAlignmentX(JPanel.LEFT_ALIGNMENT);
+		this.setComponentPopupMenu(new StepListContextMenu());
 		
 		stepList.stream().forEach((step) -> {
 			this.add(new StepLabel(step));
 		});
 	}
-	
+
 }

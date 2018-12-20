@@ -35,51 +35,51 @@ public class ParsedStep {
 		this.level = level;
 	}
 
-	public boolean isParent() {
+	public boolean hasParent() {
 		return parent;
 	}
 
-	public void setParent(boolean parent) {
+	public void setHasParent(boolean parent) {
 		this.parent = parent;
 	}
 
-	public boolean isChild() {
+	public boolean hasChild() {
 		return child;
 	}
 
-	public void setChild(boolean child) {
+	public void setHasChild(boolean child) {
 		this.child = child;
 	}
 
-	public boolean isPredecessor() {
+	public boolean hasPredecessor() {
 		return predecessor;
 	}
 
-	public void setPredecessor(boolean predecessor) {
+	public void setHasPredecessor(boolean predecessor) {
 		this.predecessor = predecessor;
 	}
 
-	public boolean isSuccessor() {
+	public boolean hasSuccessor() {
 		return successor;
 	}
 
-	public void setSuccessor(boolean successor) {
+	public void setHasSuccessor(boolean successor) {
 		this.successor = successor;
 	}
 
-	public boolean isParentSuccessor() {
+	public boolean hasParentSuccessor() {
 		return parentSuccessor;
 	}
 
-	public void setParentSuccessor(boolean parentSuccessor) {
+	public void setHasParentSuccessor(boolean parentSuccessor) {
 		this.parentSuccessor = parentSuccessor;
 	}
 
-	public boolean isPredecessorChild() {
+	public boolean hasPredecessorChild() {
 		return predecessorChild;
 	}
 
-	public void setPredecessorChild(boolean predecessorChild) {
+	public void setHasPredecessorChild(boolean predecessorChild) {
 		this.predecessorChild = predecessorChild;
 	}
 

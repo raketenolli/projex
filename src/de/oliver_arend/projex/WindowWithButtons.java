@@ -119,7 +119,16 @@ public class WindowWithButtons {
 		Step cadDrawings = new Step("CAD drawings", information.getId(), scaleDrawings.getId());
 		Step paintScheme = new Step("Create paint scheme", information.getId(), scaleDrawings.getId());
 		Step material = new Step("Material phase", null, information.getId());
+		Step getHardware = new Step("Get hardware", material.getId(), null); 
+		Step getMotorMount = new Step("Get Motor mount tube", material.getId(), null);
+		Step getWoodenRods = new Step("Get wooden rods (3 mm)", material.getId(), null);
 		Step cncMillStep = new Step("Fix CNC mill", null, null);
+		Step rnd1 = new Step("rnd1", null, null);
+		Step rnd2 = new Step("rnd2", null, null);
+		Step rnd3 = new Step("rnd3", null, null);
+		Step rnd4 = new Step("rnd4", null, null);
+		Step rnd5 = new Step("rnd5", null, null);
+		Step rnd6 = new Step("rnd6", null, null);
 		
 		information.setState(StepState.STARTED);
 		scaleDrawings.setState(StepState.STARTED);
@@ -132,18 +141,31 @@ public class WindowWithButtons {
 		stepList.add(getPhotos);
 		stepList.add(cadDrawings);
 		stepList.add(paintScheme);
+		stepList.add(getHardware);
+		stepList.add(getMotorMount);
+		stepList.add(getWoodenRods);
+		stepList.add(rnd1);
+		stepList.add(rnd2);
+		stepList.add(rnd3);
+		stepList.add(rnd4);
+		stepList.add(rnd5);
+		stepList.add(rnd6);
 		
 		ParsedStepList parsedStepList = new ParsedStepList(stepList);
 
 		StepListPanel stepListPanel = new StepListPanel(parsedStepList);
-		stepListPanel.setPreferredSize(new Dimension(400, 400));		
+		
+		JScrollPane stepListPanelScroller = new JScrollPane(stepListPanel);
+		stepListPanelScroller.setBorder(BorderFactory.createTitledBorder("Project implementation steps scroller"));
+		stepListPanelScroller.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
+		stepListPanelScroller.setPreferredSize(new Dimension(400, 400));
 		
 		frame.add(projectTreeView);
 		frame.add(matrixPanel);
-		frame.add(stepListPanel);
+		frame.add(stepListPanelScroller);
 		
 		frame.pack();
-		frame.setLocation(560, 368);
+		frame.setLocation(460, 368);
 		frame.setVisible(true);
 	}
 	
