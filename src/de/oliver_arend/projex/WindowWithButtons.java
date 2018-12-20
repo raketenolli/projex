@@ -3,6 +3,8 @@ package de.oliver_arend.projex;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -70,8 +72,6 @@ public class WindowWithButtons {
 		matrixPanel.setPreferredSize(new Dimension(400, 400));
 		matrixPanel.setBorder(BorderFactory.createTitledBorder("Project matrix"));
 
-		frame.setLocation(760, 400);
-		
 		JRadioButton buttonA = new JRadioButton();
 		buttonA.setToolTipText("Build a rocket");
 		buttonA.setSize(buttonA.getPreferredSize());
@@ -111,10 +111,39 @@ public class WindowWithButtons {
 		matrixPanel.add(buttonB);
 		matrixPanel.add(buttonC);
 		
+		List<Step> stepList = new ArrayList<Step>();
+		Step information = new Step("Information phase", null, null);
+		Step scaleDrawings = new Step("Scale drawings", information.getId(), null);
+		Step getPhotos = new Step("Get photos", scaleDrawings.getId(), null);
+		Step convertToDrawings = new Step("Convert photos to drawings", scaleDrawings.getId(), getPhotos.getId());
+		Step cadDrawings = new Step("CAD drawings", information.getId(), scaleDrawings.getId());
+		Step paintScheme = new Step("Create paint scheme", information.getId(), scaleDrawings.getId());
+		Step material = new Step("Material phase", null, information.getId());
+		Step cncMillStep = new Step("Fix CNC mill", null, null);
+		
+		information.setState(StepState.STARTED);
+		scaleDrawings.setState(StepState.STARTED);
+		getPhotos.setState(StepState.COMPLETED);
+		stepList.add(information);
+		stepList.add(material);
+		stepList.add(cncMillStep);
+		stepList.add(scaleDrawings);
+		stepList.add(convertToDrawings);
+		stepList.add(getPhotos);
+		stepList.add(cadDrawings);
+		stepList.add(paintScheme);
+		
+		ParsedStepList parsedStepList = new ParsedStepList(stepList);
+
+		StepListPanel stepListPanel = new StepListPanel(parsedStepList);
+		stepListPanel.setPreferredSize(new Dimension(400, 400));		
+		
 		frame.add(projectTreeView);
 		frame.add(matrixPanel);
+		frame.add(stepListPanel);
 		
 		frame.pack();
+		frame.setLocation(560, 368);
 		frame.setVisible(true);
 	}
 	
